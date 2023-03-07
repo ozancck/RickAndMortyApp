@@ -10,7 +10,7 @@ import SwiftUI
 struct HomeView: View {
     @StateObject var viewModel = ViewModel()
     @State var currentLocation = "Abadango"
-    @State var tr = 0
+    @State var gender = ""
 
     var body: some View {
         VStack {
@@ -44,44 +44,38 @@ struct HomeView: View {
 
             Spacer()
 
-            ScrollView(.vertical) {
-                VStack {
-                    ForEach(viewModel.characters, id: \.self) {character in
-                        Group {
-                            if character.location.name == currentLocation {
-                                Button {
-                                } label: {
-                                    HStack {
-                                        Image("try")
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fit)
-                                            .frame(width: UIScreen.main.bounds.width * 0.35)
+            List {
+                ForEach(viewModel.characters, id: \.self) { character in
+                    if character.location.name == currentLocation {
+                        HStack {
+                            AsyncImage(url: URL(string: character.image)) { image in
+                                switch image {
+                                case let .success(image):
+                                    image
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: UIScreen.main.bounds.width * 0.35)
 
-                                        Spacer()
-                                        Text(character.name)
-                                            .font(.title2)
-                                            .bold()
-                                            .padding()
-                                            .foregroundColor(.black)
-                                    }
-                                    .overlay {
-                                        RoundedRectangle(cornerRadius: 0)
-                                            .stroke(lineWidth: 2)
-                                            .fill(Color(.black))
-                                    }
-                                    .padding(.horizontal)
-                                    .padding(.vertical, 5)
+                                default: Color.clear
                                 }
                             }
-                          
+                            Spacer()
+
+                            Text(character.name)
+                                .font(.title2)
+                                .multilineTextAlignment(.trailing)
+                                .bold()
+                                .foregroundColor(.black)
+                                .padding(.horizontal)
                         }
-                        
-                        
-                      
-                     
+                        .overlay {
+                            RoundedRectangle(cornerRadius: 0)
+                                .stroke(lineWidth: 1)
+                        }
                     }
                 }
             }
+            .listStyle(PlainListStyle())
         }
 
         .onAppear {
