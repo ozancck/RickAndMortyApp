@@ -28,8 +28,6 @@ struct HomeView: View {
                                 .foregroundColor(.black)
                                 .padding(9)
                                 .background(self.currentLocation != location.name ? Color(.gray).opacity(0.6) : Color(.white))
-                            
-                            
 
                                 .overlay {
                                     RoundedRectangle(cornerRadius: 8)
@@ -47,39 +45,45 @@ struct HomeView: View {
 
             ScrollView(.vertical) {
                 VStack {
-                    ForEach(1 ..< 20) { _ in
-                        Button {
+                    
+                    ForEach(viewModel.characters, id: \.self) { character in
+                        Group{
                             
-                        } label: {
-                            HStack {
-                                Image("try")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: UIScreen.main.bounds.width * 0.35)
+                            if (character.location.name == currentLocation){
+                                Button {
+                                    
+                                } label: {
+                                    HStack {
+                                        Image("try")
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fit)
+                                            .frame(width: UIScreen.main.bounds.width * 0.35)
 
-                                Spacer()
-                                Text("Ozan Cicek")
-                                    .font(.title)
-                                    .bold()
-                                    .padding()
-                                    .foregroundColor(.black)
+                                        Spacer()
+                                        Text(character.name)
+                                            .font(.title2)
+                                            .bold()
+                                            .padding()
+                                            .foregroundColor(.black)
+                                    }
+                                    .overlay {
+                                        RoundedRectangle(cornerRadius: 0)
+                                            .stroke(lineWidth: 2)
+                                            .fill(Color(.black))
+                                    }
+                                    .padding(.horizontal)
+                                    .padding(.vertical, 5)
+                                }
                             }
-                            .overlay {
-                                RoundedRectangle(cornerRadius: 0)
-                                    .stroke(lineWidth: 2)
-                                    .fill(Color(.black))
-                            }
-                            .padding(.horizontal)
-                            .padding(.vertical, 5)
                         }
-
                     }
                 }
             }
         }
 
         .onAppear {
-            viewModel.fetch()
+            viewModel.fetchCharacter()
+            viewModel.fetchLocation()
         }
     }
 }

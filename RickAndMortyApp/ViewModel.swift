@@ -9,8 +9,11 @@ import Foundation
 class ViewModel: ObservableObject {
     
     @Published var locations : [Location] = []
-    func fetch(){
-        guard let url = URL(string: "https://rickandmortyapi.com/api/location/1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20") else {
+    @Published var characters : [Character] = []
+    
+    
+    func fetchCharacter(){
+        guard let url = URL(string: "https://rickandmortyapi.com/api/character") else {
             return
         }
         
@@ -20,9 +23,32 @@ class ViewModel: ObservableObject {
             }
             
             do{
-                let locations = try JSONDecoder().decode([Location].self, from: data)
+                let characters = try JSONDecoder().decode(Main.self, from: data)
                 DispatchQueue.main.async {
-                    self?.locations = locations
+                    self?.characters = characters.results
+                }
+            }catch {
+                print(error)
+            }
+            
+        }
+        task.resume()
+    }
+    
+    func fetchLocation(){
+        guard let url = URL(string: "https://rickandmortyapi.com/api/location") else {
+            return
+        }
+        
+        let task = URLSession.shared.dataTask(with: url) {[weak self] data, response, error in
+            guard let data = data, error == nil else {
+                return
+            }
+            
+            do{
+                let locations = try JSONDecoder().decode(Main2.self, from: data)
+                DispatchQueue.main.async {
+                    self?.locations = locations.results
                 }
             }catch {
                 print(error)
@@ -33,4 +59,6 @@ class ViewModel: ObservableObject {
         
         
     }
+    
+    
 }

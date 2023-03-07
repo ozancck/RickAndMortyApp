@@ -7,6 +7,13 @@
 
 import Foundation
 
+struct Main2 : Hashable, Codable {
+    
+    let info : Info
+    let results : [Location]
+    
+}
+
 struct Location: Hashable, Codable {
     let id: Int
     let name: String
@@ -16,3 +23,5 @@ struct Location: Hashable, Codable {
     let url: String
     let created: String
 }
+
+
