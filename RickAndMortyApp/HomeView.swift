@@ -10,6 +10,7 @@ import SwiftUI
 struct HomeView: View {
     @StateObject var viewModel = ViewModel()
     @State var currentLocation = "Abadango"
+    @State var tr = 0
 
     var body: some View {
         VStack {
@@ -45,13 +46,10 @@ struct HomeView: View {
 
             ScrollView(.vertical) {
                 VStack {
-                    
-                    ForEach(viewModel.characters, id: \.self) { character in
-                        Group{
-                            
-                            if (character.location.name == currentLocation){
+                    ForEach(viewModel.characters, id: \.self) {character in
+                        Group {
+                            if character.location.name == currentLocation {
                                 Button {
-                                    
                                 } label: {
                                     HStack {
                                         Image("try")
@@ -75,7 +73,12 @@ struct HomeView: View {
                                     .padding(.vertical, 5)
                                 }
                             }
+                          
                         }
+                        
+                        
+                      
+                     
                     }
                 }
             }
