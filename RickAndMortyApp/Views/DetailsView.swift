@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct DetailsView: View {
+    
     var name: String
-    var specy : String
+    var specy: String
     var image: String
     var status: String
     var gender: String
@@ -17,14 +18,21 @@ struct DetailsView: View {
     var location: String
     var episodes: [String]
     var created: String
+    
+    func getEpisodes() -> String {
+        var episodesStrings: [String] = []
+        for episode in episodes {
+            episodesStrings.append(episode.components(separatedBy: "/").last ?? "")
+        }
+        return episodesStrings.joined(separator: ", ")
+    }
 
     var body: some View {
         VStack {
             Text(name)
                 .font(.largeTitle)
                 .bold()
-            
-            
+
             AsyncImage(url: URL(string: image)) { image in
                 switch image {
                 case let .success(image):
@@ -36,10 +44,9 @@ struct DetailsView: View {
                 default: Color.clear
                 }
             }
-            
-            
+
             Spacer()
-            
+
             HStack {
                 VStack(alignment: .leading) {
                     Text("Status:")
@@ -60,7 +67,7 @@ struct DetailsView: View {
                 .font(.title3)
                 .bold()
                 .padding(.leading, 44)
-                
+
                 Spacer()
                 VStack(alignment: .leading) {
                     Text(status)
@@ -73,31 +80,30 @@ struct DetailsView: View {
                         .padding(.bottom, 1.0)
                     Text(location)
                         .padding(.bottom, 1.0)
-                    Text("1, 3 ,4 ,5")
+                    Text(getEpisodes()) //THIS PLACEEEE
                         .padding(.bottom, 1.0)
                     Text(created)
-                
                 }
-                
+
                 .font(.title3)
-                
+
                 Spacer()
                 Spacer()
                 Spacer()
                 Spacer()
                 Spacer()
                 Spacer()
-                
-                
             }
             Spacer()
-                
         }
     }
 }
 
 struct DetailsView_Previews: PreviewProvider {
+
+    
+    
     static var previews: some View {
-        DetailsView(name: "OZAN", specy: "Human", image: "https://rickandmortyapi.com/api/character/avatar/1.jpeg", status: "Alive", gender: "Male", origin: "Earth", location: "Earth", episodes: ["aann5", "deden6"] , created: "33.343.")
+        DetailsView(name: "OZAN", specy: "Human", image: "https://rickandmortyapi.com/api/character/avatar/1.jpeg", status: "Alive", gender: "Male", origin: "Earth", location: "Earth", episodes: ["asdas", "asdasd"], created: "33.343.")
     }
 }

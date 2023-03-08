@@ -30,6 +30,11 @@ class ViewModel: ObservableObject {
                     DispatchQueue.main.async {
                         self?.characters = (self?.characters ?? []) + characters.results
                         self?.nextLink = characters.info.next
+                        
+                      
+                        
+                        
+                        
                         self?.page = (self?.page ?? 0) + 1
                         if (self?.page) != 42 {
                             self?.fetchCharacter()
