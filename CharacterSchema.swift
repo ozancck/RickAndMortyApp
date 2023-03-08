@@ -37,7 +37,7 @@ struct Character: Hashable, Codable {
     var origin : Origin
     let location: Location2
     let image: String
-    let episode: [URL]
+    let episode: [String]
     let url: String
     let created: String
     

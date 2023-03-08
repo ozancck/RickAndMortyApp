@@ -46,6 +46,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3173A81029B8095E00E34251 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				31B3B01729B646FA00970F74 /* SplahScreenView.swift */,
+				31B3B01929B6472D00970F74 /* HomeView.swift */,
+				3173A80E29B8002100E34251 /* CellView.swift */,
+				31B3B01B29B6473400970F74 /* DetailsView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		31B3AFFD29B646C500970F74 = {
 			isa = PBXGroup;
 			children = (
@@ -65,12 +76,9 @@
 		31B3B00829B646C500970F74 /* RickAndMortyApp */ = {
 			isa = PBXGroup;
 			children = (
+				3173A81029B8095E00E34251 /* Views */,
 				31B3B00929B646C500970F74 /* RickAndMortyAppApp.swift */,
 				31B3B00B29B646C500970F74 /* ContentView.swift */,
-				31B3B01729B646FA00970F74 /* SplahScreenView.swift */,
-				31B3B01929B6472D00970F74 /* HomeView.swift */,
-				3173A80E29B8002100E34251 /* CellView.swift */,
-				31B3B01B29B6473400970F74 /* DetailsView.swift */,
 				31B3B00D29B646C600970F74 /* Assets.xcassets */,
 				31B3B00F29B646C600970F74 /* Preview Content */,
 				316A66EC29B68CB300501F50 /* LocationSchema.swift */,
