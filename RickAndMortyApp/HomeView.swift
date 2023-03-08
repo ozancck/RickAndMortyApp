@@ -10,7 +10,7 @@ import SwiftUI
 struct HomeView: View {
     @StateObject var viewModel = ViewModel()
     @State var currentLocation = "Abadango"
-    @State var gender = ""
+    
 
     var body: some View {
         VStack {
@@ -47,31 +47,9 @@ struct HomeView: View {
             List {
                 ForEach(viewModel.characters, id: \.self) { character in
                     if character.location.name == currentLocation {
-                        HStack {
-                            AsyncImage(url: URL(string: character.image)) { image in
-                                switch image {
-                                case let .success(image):
-                                    image
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width: UIScreen.main.bounds.width * 0.35)
-
-                                default: Color.clear
-                                }
-                            }
-                            Spacer()
-
-                            Text(character.name)
-                                .font(.title2)
-                                .multilineTextAlignment(.trailing)
-                                .bold()
-                                .foregroundColor(.black)
-                                .padding(.horizontal)
-                        }
-                        .overlay {
-                            RoundedRectangle(cornerRadius: 0)
-                                .stroke(lineWidth: 1)
-                        }
+                        
+                        CellView(url: character.image, name: character.name, gender: character.gender)
+                      
                     }
                 }
             }
