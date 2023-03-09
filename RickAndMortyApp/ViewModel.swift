@@ -13,6 +13,8 @@ class ViewModel: ObservableObject {
     @Published var characters: [Character] = []
     @Published var nextLink: String = "https://rickandmortyapi.com/api/character"
     @Published var page: Int = 0
+    @Published var locationPage: Int = 0
+    @Published var locationNextlink : String = "https://rickandmortyapi.com/api/location"
 
     func fetchCharacter() {
         if nextLink != "null" {
@@ -31,10 +33,6 @@ class ViewModel: ObservableObject {
                         self?.characters = (self?.characters ?? []) + characters.results
                         self?.nextLink = characters.info.next
                         
-                      
-                        
-                        
-                        
                         self?.page = (self?.page ?? 0) + 1
                         if (self?.page) != 42 {
                             self?.fetchCharacter()
@@ -50,7 +48,7 @@ class ViewModel: ObservableObject {
     }
 
     func fetchLocation() {
-        guard let url = URL(string: "https://rickandmortyapi.com/api/location") else {
+        guard let url = URL(string: locationNextlink) else {
             return
         }
 
@@ -62,7 +60,15 @@ class ViewModel: ObservableObject {
             do {
                 let locations = try JSONDecoder().decode(Main2.self, from: data)
                 DispatchQueue.main.async {
-                    self?.locations = locations.results
+                   
+                    self?.locations = (self?.locations ?? []) + locations.results
+                    
+                    self?.locationNextlink = locations.info.next
+                    
+                    self?.locationPage = (self?.locationPage ?? 0) + 1
+                    if (self?.page) != 7 {
+                        self?.fetchLocation()
+                    }
                 }
             } catch {
                 print(error)

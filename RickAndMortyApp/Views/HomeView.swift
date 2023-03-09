@@ -12,14 +12,14 @@ struct HomeView: View {
     @State var currentLocation = "Earth (C-137)"
 
     var body: some View {
-        NavigationView {
-            VStack {
+        NavigationStack {
+            VStack(alignment: .center) {
                 Image("logo")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: UIScreen.main.bounds.width * 0.4)
                 ScrollView(.horizontal) {
-                    HStack {
+                    LazyHStack {
                         ForEach(viewModel.locations, id: \.self) { location in
 
                             Button {
@@ -38,24 +38,31 @@ struct HomeView: View {
                                     }.padding(.horizontal, 3)
                             }
                         }
-                    }
-                    .padding(.horizontal)
+                    }.frame(height: 50)
+
+                        .padding(.horizontal)
                 }
 
                 Spacer()
 
-                List {
-                    ForEach(viewModel.characters, id: \.self) { character in
+                ScrollView {
+                    VStack {
+                        ForEach(viewModel.characters, id: \.self) { character in
 
-                        if character.location.name == currentLocation {
-                            NavigationLink(destination: DetailsView(name: character.name, specy: character.species, image: character.image, status: character.status, gender: character.gender, origin: character.origin.name, location: character.location.name, episodes: character.episode, created: character.created)) {
-                                CellView(url: character.image, name: character.name, gender: character.gender)
+                            if character.location.name == currentLocation {
+                                NavigationLink {
+                                    DetailsView(name: character.name, specy: character.species, image: character.image, status: character.status, gender: character.gender, origin: character.origin.name, location: character.location.name, episodes: character.episode, created: character.created)
+                                       
+                                        
+
+                                } label: {
+                                    CellView(url: character.image, name: character.name, gender: character.gender)
+                                }
+                            
                             }
-                    
                         }
-                    }
+                    }.padding()
                 }
-                .listStyle(PlainListStyle())
             }
 
             .onAppear {
@@ -63,6 +70,9 @@ struct HomeView: View {
                 viewModel.fetchLocation()
             }
         }
+        .foregroundColor(.black)
+        
+        
     }
 }
 
