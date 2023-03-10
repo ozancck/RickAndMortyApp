@@ -14,7 +14,18 @@ class ViewModel: ObservableObject {
     @Published var nextLink: String = "https://rickandmortyapi.com/api/character"
     @Published var page: Int = 0
     @Published var locationPage: Int = 0
-    @Published var locationNextlink : String = "https://rickandmortyapi.com/api/location"
+    @Published var locationNextlink: String = "https://rickandmortyapi.com/api/location"
+    
+    func fetchMoreLoacation(){
+        if locationPage == 0 {
+            self.fetchLocation()
+        }else {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
+                self.fetchLocation()
+            }
+        }
+        
+    }
 
     func fetchCharacter() {
         if nextLink != "null" {
@@ -28,11 +39,11 @@ class ViewModel: ObservableObject {
                 }
 
                 do {
-                    let characters = try JSONDecoder().decode(Main.self, from: data)
+                    let characters = try JSONDecoder().decode(RickAndMortyCharacter.self, from: data)
                     DispatchQueue.main.async {
                         self?.characters = (self?.characters ?? []) + characters.results
                         self?.nextLink = characters.info.next
-                        
+
                         self?.page = (self?.page ?? 0) + 1
                         if (self?.page) != 42 {
                             self?.fetchCharacter()
@@ -48,32 +59,30 @@ class ViewModel: ObservableObject {
     }
 
     func fetchLocation() {
-        guard let url = URL(string: locationNextlink) else {
-            return
-        }
-
-        let task = URLSession.shared.dataTask(with: url) { [weak self] data, _, error in
-            guard let data = data, error == nil else {
+        if locationNextlink != "null" {
+            guard let url = URL(string: locationNextlink) else {
                 return
             }
 
-            do {
-                let locations = try JSONDecoder().decode(Main2.self, from: data)
-                DispatchQueue.main.async {
-                   
-                    self?.locations = (self?.locations ?? []) + locations.results
-                    
-                    self?.locationNextlink = locations.info.next
-                    
-                    self?.locationPage = (self?.locationPage ?? 0) + 1
-                    if (self?.page) != 7 {
-                        self?.fetchLocation()
-                    }
+            let task = URLSession.shared.dataTask(with: url) { [weak self] data, _, error in
+                guard let data = data, error == nil else {
+                    return
                 }
-            } catch {
-                print(error)
+
+                do {
+                    let locations = try JSONDecoder().decode(RickAndMortyLocation.self, from: data)
+                    DispatchQueue.main.async {
+                        self?.locations = (self?.locations ?? []) + locations.results
+
+                        self?.locationNextlink = locations.info.next
+
+                        self?.locationPage = (self?.locationPage ?? 0) + 1
+                    }
+                } catch {
+                    print(error)
+                }
             }
+            task.resume()
         }
-        task.resume()
     }
 }

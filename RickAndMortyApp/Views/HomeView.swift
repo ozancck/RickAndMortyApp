@@ -38,9 +38,14 @@ struct HomeView: View {
                                     }.padding(.horizontal, 3)
                             }
                         }
-                    }.frame(height: 50)
-
-                        .padding(.horizontal)
+                        ProgressView()
+                            .progressViewStyle(.circular)
+                            .onAppear {
+                                viewModel.fetchMoreLoacation()
+                            }
+                    }
+                    .frame(height: 50)
+                    .padding(.horizontal)
                 }
 
                 Spacer()
@@ -52,13 +57,10 @@ struct HomeView: View {
                             if character.location.name == currentLocation {
                                 NavigationLink {
                                     DetailsView(name: character.name, specy: character.species, image: character.image, status: character.status, gender: character.gender, origin: character.origin.name, location: character.location.name, episodes: character.episode, created: character.created)
-                                       
-                                        
 
                                 } label: {
                                     CellView(url: character.image, name: character.name, gender: character.gender)
                                 }
-                            
                             }
                         }
                     }.padding()
@@ -67,12 +69,10 @@ struct HomeView: View {
 
             .onAppear {
                 viewModel.fetchCharacter()
-                viewModel.fetchLocation()
+                //viewModel.fetchLocation()
             }
         }
         .foregroundColor(.black)
-        
-        
     }
 }
 
