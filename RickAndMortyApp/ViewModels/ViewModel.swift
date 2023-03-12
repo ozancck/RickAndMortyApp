@@ -9,6 +9,7 @@ import Foundation
 import SwiftUI
 
 class ViewModel: ObservableObject {
+    
     @Published var locations: [Location] = []
     @Published var characters: [Character] = []
     @Published var nextLink: String = "https://rickandmortyapi.com/api/character"
@@ -85,4 +86,7 @@ class ViewModel: ObservableObject {
             task.resume()
         }
     }
+    
+    
+    
 }
